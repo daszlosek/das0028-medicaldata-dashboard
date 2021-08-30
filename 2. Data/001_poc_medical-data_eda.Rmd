@@ -12,6 +12,8 @@ library(medicaldata)
 
 library(tidyverse)
 
+
+# this one looks good!
 indo_rct <- medicaldata::indo_rct
 
 ```
@@ -24,16 +26,49 @@ https://htmlpreview.github.io/?https://github.com/higgi13425/medicaldata/blob/ma
 # https://htmlpreview.github.io/?https://github.com/higgi13425/medicaldata/blob/master/man/codebooks/indo_rct_codebook.html
 
 
+article related
+#https://www.nejm.org/doi/full/10.1056/NEJMoa1111103
 
 
 
 ```
 
 
+```{r}
+
+head(indo_rct)
+
+```
+
+
+
+```{r}
+
+# treatment group
+indo_rct %>% group_by(rx) %>% count()
+
+```
 
 
 
 
+```{r age}
+
+
+indo_rct %>% group_by(rx) %>% summarise(age_mean = round(mean(age),1),
+                                        sd = round(sd(age),1))
+
+```
+
+```{r}
+
+head(indo_rct)
+
+
+indo_rct %>% group_by(rx,gender) %>% count() %>% group_by(rx) %>%
+             mutate(percent = round(n/sum(n),2)) 
+
+```
 
 
 
