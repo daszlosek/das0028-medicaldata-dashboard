@@ -5,25 +5,24 @@ output: html_notebook
 
 
 
-```{r}
+```{r load data}
 
 
 library(medicaldata)
 
 library(tidyverse)
 
+indo_rct <- medicaldata::indo_rct
+
 ```
 
-
-
-
-
-
+# codebook
+https://htmlpreview.github.io/?https://github.com/higgi13425/medicaldata/blob/master/man/codebooks/indo_rct_codebook.html
 
 ```{r}
+# codebook
+# https://htmlpreview.github.io/?https://github.com/higgi13425/medicaldata/blob/master/man/codebooks/indo_rct_codebook.html
 
-
-supraclavicular <- medicaldata::supraclavicular
 
 
 
