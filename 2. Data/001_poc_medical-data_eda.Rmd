@@ -88,13 +88,18 @@ head(indo_rct)
 # recpanc - Recurrent Pancreatitis, a risk factor for future PEP
 # precut - a sphincter pre-cut was needed to enter the papilla, a risk factor for PEP
 # difcan - Cannulation of the papilla was difficult, a risk factor for PEP
-
 # amp - An Ampullectomy was performed for dysplasia or cancer, which could be a risk factor for PEP
+# paninj - Contrast was injected into the pancreas during the procedure, a risk factor for PEP
+# acinar - The pancreas appeared to have acinarization on imaging, which could be a risk factor for PEP
+# prophystent - A pancreatic duct stent was placed at the end of the procedure per the judgement of the endoscopist (more often in high-risk cases), a potential protective effect against PEP
+# bsphinct - A biliary sphincterotomy was performed, which could be a risk factor for PEP
+#----bsphinc not bsinct
+
+# train - A trainee participated in the ERCP, which could be a risk factor for PEP
 
 
-
-
-indo_rct %>% dplyr::select(od, site, age, sod, pep,recpanc,precut,difcan,amp)
+# type - Sphincter of Oddi dysfunction type/level - higher numbers are more severe with greater association with PEP
+indo_rct %>% dplyr::select(id, site, age, sod, pep,recpanc,precut,difcan,amp,train,prophystent,acinar,paninj,bsphinc)
 
 ```
 
