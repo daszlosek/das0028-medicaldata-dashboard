@@ -99,8 +99,13 @@ head(indo_rct)
 
 
 # type - Sphincter of Oddi dysfunction type/level - higher numbers are more severe with greater association with PEP
-indo_rct %>% dplyr::select(id, site, age, sod, pep,recpanc,precut,difcan,amp,train,prophystent,acinar,paninj,bsphinc)
-
+indo_rct_long <- indo_rct %>% dplyr::select(id, site, age, sod, pep,recpanc,precut,
+                                            difcan,amp,train,prophystent,acinar,paninj,bsphinc) %>%
+                 pivot_longer(cols = -c(id,site,age),
+                              names_to = "category", 
+                              values_to = "value",
+                              values_transform = list(value = as.character))
+        
 ```
 
 
