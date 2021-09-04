@@ -26,7 +26,7 @@ https://htmlpreview.github.io/?https://github.com/higgi13425/medicaldata/blob/ma
 # https://htmlpreview.github.io/?https://github.com/higgi13425/medicaldata/blob/master/man/codebooks/indo_rct_codebook.html
 
 
-article related
+#article related
 #https://www.nejm.org/doi/full/10.1056/NEJMoa1111103
 
 
@@ -73,7 +73,30 @@ indo_rct %>% group_by(rx,gender) %>% count() %>% group_by(rx) %>%
 
 
 
+```{r}
 
+head(indo_rct)
+
+```
+
+
+
+
+```{r}
+# sod - sphincter of oddi dysfunction was present, a risk factor favoring post-ERCP pancreatitis
+# pep - previous post-ERCP pancreatitis (PEP), a risk factor for future PEP
+# recpanc - Recurrent Pancreatitis, a risk factor for future PEP
+# precut - a sphincter pre-cut was needed to enter the papilla, a risk factor for PEP
+# difcan - Cannulation of the papilla was difficult, a risk factor for PEP
+
+# amp - An Ampullectomy was performed for dysplasia or cancer, which could be a risk factor for PEP
+
+
+
+
+indo_rct %>% dplyr::select(od, site, age, sod, pep,recpanc,precut,difcan,amp)
+
+```
 
 
 
