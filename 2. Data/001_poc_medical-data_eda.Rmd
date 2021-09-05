@@ -7,7 +7,7 @@ output: html_notebook
 
 ```{r load data}
 
-
+# load data
 library(medicaldata)
 
 library(tidyverse)
@@ -61,8 +61,6 @@ indo_rct %>% group_by(rx) %>% summarise(age_mean = round(mean(age),1),
 ```
 
 ```{r}
-
-head(indo_rct)
 
 
 indo_rct %>% group_by(rx,gender) %>% count() %>% group_by(rx) %>%
