@@ -5,6 +5,9 @@ output: html_notebook
 
 
 
+deicde on flex v shiny dashboard -- shny would be best but more $$$$?
+
+
 ```{r load data}
 
 # load data
