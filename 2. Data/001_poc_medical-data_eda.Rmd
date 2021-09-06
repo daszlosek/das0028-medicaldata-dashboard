@@ -138,7 +138,14 @@ table1 <- indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
                   pivot_wider(., names_from = rx, values_from = n:percent) %>%
                   dplyr::select(category,
                                 percent_0_placebo ,n_0_placebo,
-                                percent_1_indomethacin,n_1_indomethacin)
+                                percent_1_indomethacin,n_1_indomethacin) %>%
+                  mutate(a_cat = 
+                          case_when(
+                             "train" ~ "Trainee involvement in ECRP",
+                             "prophystent" ~ "Placement of Pancreatic Stent",
+                             "amp" ~ "Ampullectomy",
+                             
+                          ))
 
 
 
@@ -151,8 +158,6 @@ table1
 
 
 ```{r table 1 kable}
-
-
 
 
 knitr::kable(table1,"html", table.attr = "style='width:80%;'",row.names = F,
