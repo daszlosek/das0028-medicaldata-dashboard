@@ -144,6 +144,14 @@ table1 <- indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
                              "train" ~ "Trainee involvement in ECRP",
                              "prophystent" ~ "Placement of Pancreatic Stent",
                              "amp" ~ "Ampullectomy",
+                             "bsphinc" ~ "Theraputic Biliary Sphincterotomy",
+                             "acinar" ~ "Pancreatic acinarisation",
+                             #"" ~ "Therapeutic pancreatic schinterotomt",
+                             "paninj" ~ "Pancreatography - Patients",
+                             #"" ~ "Pancreatography - Median no. of injections of contrast agent into pancreatic duct",
+                             "precut" ~ "Precut sphincterotomy",
+                             "difcan" ~ "Difficult cannulation (> 8 attempts)",
+                             
                              
                           ))
 
