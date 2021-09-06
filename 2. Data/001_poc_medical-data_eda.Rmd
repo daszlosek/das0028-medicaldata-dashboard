@@ -141,6 +141,7 @@ table1 <- indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
                                 percent_1_indomethacin,n_1_indomethacin) %>%
                   mutate(a_cat = 
                           case_when(
+                            # reverse order at the moment
                              "train" ~ "Trainee involvement in ECRP",
                              "prophystent" ~ "Placement of Pancreatic Stent",
                              "amp" ~ "Ampullectomy",
@@ -151,6 +152,9 @@ table1 <- indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
                              #"" ~ "Pancreatography - Median no. of injections of contrast agent into pancreatic duct",
                              "precut" ~ "Precut sphincterotomy",
                              "difcan" ~ "Difficult cannulation (> 8 attempts)",
+                             "recpanc" ~ "History of recurrent pancreatitis",
+                             #"" ~ "History of post-ERCP pancreatitis",
+                             
                              
                              
                           ))
