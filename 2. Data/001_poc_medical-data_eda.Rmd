@@ -14,7 +14,7 @@ deicde on flex v shiny dashboard -- shny would be best but more $$$$?
 library(medicaldata)
 
 library(tidyverse)
-
+library("kableExtra")
 
 # this one looks good!
 indo_rct <- medicaldata::indo_rct
@@ -83,10 +83,10 @@ head(indo_rct)
 
 
 
-```{r}
+```{r variables for table 1}
 # sod - sphincter of oddi dysfunction was present, a risk factor favoring post-ERCP pancreatitis
 # pep - previous post-ERCP pancreatitis (PEP), a risk factor for future PEP
-# recpanc - Recurrent Pancreatitis, a risk factor for future PEP
+# recpaesnc - Recurrent Pancreatitis, a risk factor for future PEP
 # precut - a sphincter pre-cut was needed to enter the papilla, a risk factor for PEP
 # difcan - Cannulation of the papilla was difficult, a risk factor for PEP
 # amp - An Ampullectomy was performed for dysplasia or cancer, which could be a risk factor for PEP
@@ -119,11 +119,11 @@ head(indo_rct_long)
 
 
 
-```{r}
+```{r table 1}
 
-
+# thisi s the code for creating table 1, make into a nice kable?
 # recreating table 1
-indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
+table1 <- indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
                   group_by(rx,category) %>%
                   # calculate percentages
                   mutate(percent =  round((n/sum(n))*100,1),
@@ -136,9 +136,13 @@ indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
                   dplyr::select(-value) %>%
                   # pivot wider by treatment group
                   pivot_wider(., names_from = rx, values_from = n:percent) %>%
-                  dplyr::select(category, ends_with("placebo"), ends_with("indomethacin"))
+                  dplyr::select(category,
+                                percent_0_placebo ,n_0_placebo,
+                                percent_1_indomethacin,n_1_indomethacin)
 
 
+
+table1
 
 #indo_rct_long %>% group_by(value) %>% count()
 
@@ -146,6 +150,19 @@ indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
 
 
 
+```{r table 1 kable}
+
+
+
+
+knitr::kable(table1,"html", table.attr = "style='width:80%;'",row.names = F,
+      col.names = c("Characteristics","%","n","%","n"),
+      align = c("l",rep("c",4))) %>%
+      kable_styling(full_width = F,bootstrap_options = c("striped", "hover"), font_size = 10) %>%
+      add_header_above(c(" " = 1, "Placebo" = 2, "Indomethacin" = 2))
+
+
+```
 
 
 
