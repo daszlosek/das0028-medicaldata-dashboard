@@ -100,13 +100,15 @@ head(indo_rct)
 
 
 # type - Sphincter of Oddi dysfunction type/level - higher numbers are more severe with greater association with PEP
-indo_rct_long <- indo_rct %>% dplyr::select(id, site, age, sod, pep,recpanc,precut,
+indo_rct_long <- indo_rct %>% dplyr::select(id, site,rx, age, sod, pep,recpanc,precut,
                                             difcan,amp,train,prophystent,acinar,paninj,bsphinc) %>%
-                 pivot_longer(cols = -c(id,site,age),
+                 pivot_longer(cols = -c(id,site,rx,age),
                               names_to = "category", 
                               values_to = "value",
                               values_transform = list(value = as.character))
-        
+     
+
+head(indo_rct_long)   
 ```
 
 
@@ -115,6 +117,32 @@ indo_rct_long <- indo_rct %>% dplyr::select(id, site, age, sod, pep,recpanc,prec
 
 
 
+
+
+```{r}
+
+
+# recreating table 1
+indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
+                  group_by(rx,category) %>%
+                  # calculate percentages
+                  mutate(percent =  round((n/sum(n))*100,1),
+                         #total = sum(n),
+                         #n_n = paste0(n,"/",total)
+                         ) %>%
+                  # only care about positives
+                  filter(value == "1_yes") %>%
+                  # remove uselss variables
+                  dplyr::select(-value) %>%
+                  # pivot wider by treatment group
+                  pivot_wider(., names_from = rx, values_from = n:percent) %>%
+                  dplyr::select(category, ends_with("placebo"), ends_with("indomethacin"))
+
+
+
+#indo_rct_long %>% group_by(value) %>% count()
+
+```
 
 
 
