@@ -121,6 +121,8 @@ head(indo_rct_long)
 
 ```{r table 1}
 
+# still need to look for other variables
+
 # thisi s the code for creating table 1, make into a nice kable?
 # recreating table 1
 table1 <- indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
