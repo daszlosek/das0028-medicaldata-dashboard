@@ -1,0 +1,44 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+deicde on flex v shiny dashboard -- shny would be best but more $$$$?
+
+
+```{r load data}
+# ADDING TEST
+# load data
+library(medicaldata)
+
+library(tidyverse)
+library("kableExtra")
+
+# this one looks good!
+indo_rct <- medicaldata::indo_rct
+
+```
+
+# codebook
+https://htmlpreview.github.io/?https://github.com/higgi13425/medicaldata/blob/master/man/codebooks/indo_rct_codebook.html
+
+```{r}
+# codebook
+# https://htmlpreview.github.io/?https://github.com/higgi13425/medicaldata/blob/master/man/codebooks/indo_rct_codebook.html
+
+
+#article related
+#https://www.nejm.org/doi/full/10.1056/NEJMoa1111103
+
+
+
+```
+
+
+```{r}
+
+head(indo_rct)
+
+```
