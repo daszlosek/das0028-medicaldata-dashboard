@@ -39,6 +39,16 @@ https://htmlpreview.github.io/?https://github.com/higgi13425/medicaldata/blob/ma
 
 ```{r}
 
+
 head(indo_rct)
 
 ```
+
+
+
+```{r}
+
+
+#focusing on primary end point and possible adverse events
+```
+
