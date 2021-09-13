@@ -48,7 +48,7 @@ head(indo_rct)
 
 ```{r}
 
-
+# need to pull out some additional information
 #focusing on primary end point and possible adverse events
 ```
 
