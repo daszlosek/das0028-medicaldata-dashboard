@@ -51,6 +51,12 @@ head(indo_rct)
 indo_rct %>% group_by(bleed,rx) %>% count()
 
 
+indo_rct %>% group_by(outcome,rx) %>% count() %>% group_by(rx) %>%
+             mutate(percent = n/sum(n)) %>%
+             filter(outcome == "1_yes")
+
+
+
 ```
 
 
