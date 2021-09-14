@@ -50,13 +50,36 @@ head(indo_rct)
 
 indo_rct %>% group_by(bleed,rx) %>% count()
 
+# all post pancreatitis 
 
-indo_rct %>% group_by(outcome,rx) %>% count() %>% group_by(rx) %>%
-             mutate(percent = n/sum(n)) %>%
-             filter(outcome == "1_yes")
+primary_outcome <- indo_rct %>% 
+                   group_by(outcome,rx) %>% count() %>% group_by(rx) %>%
+                   mutate(percent = round(n/sum(n),3)) %>%
+                   ungroup() %>%
+                   filter(outcome == "1_yes") %>%
+                   mutate(rx = ifelse(rx == "0_placebo","Placebo","Indomethacin"))
 
+primary_outcome
 
+ggplot(primary_outcome, aes(x = rx, y = percent, fill = rx)) +
+       geom_col(width = 0.5, color = "black") +
+       scale_y_continuous("Patients (%)",
+                          labels = scales::percent,
+                          expand = c(0,0), limits = c(0,0.2)) +
+       scale_x_discrete("All Post-ERCP \n Pancreatitis") +
+       geom_text(data = primary_outcome,
+                 label = paste0(primary_outcome$percent*100,"%"),
+                 nudge_y = 0.01) + 
+       scale_fill_manual(values = c("#b9ceda","#256b81")) + 
+       theme_classic() + 
+       theme(legend.title = element_blank(),
+             legend.position = "top",
+             axis.title.y = element_text(face = "bold"),
+             axis.title.x = element_text(face = "bold"),
+             axis.text.x = element_blank(),
+             axis.ticks.x = element_blank())
 
+       
 ```
 
 
