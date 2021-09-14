@@ -100,7 +100,7 @@ head(indo_rct)
 
 
 # type - Sphincter of Oddi dysfunction type/level - higher numbers are more severe with greater association with PEP
-indo_rct_long <- indo_rct %>% dplyr::select(id, site,rx, age, sod, pep,recpanc,precut,
+indo_rct_long <- indo_rct %>% dplyr::select(id, site,rx, age, sod, pep,recpanc,precut,gender,type,sodsom,
                                             difcan,amp,train,prophystent,acinar,paninj,bsphinc,therastent) %>%
                  pivot_longer(cols = -c(id,site,rx,age),
                               names_to = "category", 
@@ -133,7 +133,7 @@ table1_raw <- indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
                          #n_n = paste0(n,"/",total)
                          ) %>%
                   # only care about positives
-                  filter(value == "1_yes") %>%
+                  filter(value %in% c("1_yes","1_female")) %>%
                   # remove uselss variables
                   dplyr::select(-value) %>%
                   ungroup() %>%
@@ -160,8 +160,10 @@ table1_categorical <- table1_raw %>%
                              category == "difcan" ~ "Difficult cannulation (> 8 attempts)",
                              category == "recpanc" ~ "History of recurrent pancreatitis",
                              category == "pep" ~ "History of post-ERCP pancreatitis",
+                             category == "sodsom" ~ "Documented manometry",
+                             category == "gender" ~ "Female sex",
                              TRUE ~ "999"),
-                         cat_order = factor(category, levels = c("recpanc","difcan",
+                         cat_order = factor(category, levels = c("gender","sodsom","recpanc","difcan",
                                                                  "precut","paninj",
                                                                  "therastent","acinar",
                                                                  "bsphinc","amp",
@@ -169,7 +171,7 @@ table1_categorical <- table1_raw %>%
 
 
 
-table1_categorical
+table1_categorical %>% arrange(cat_order)
 
 #indo_rct_long %>% group_by(value) %>% count()
 
@@ -180,9 +182,28 @@ table1_categorical
 
 # sphincter of oddi table
 
-oddi_table <- table1_raw %>% 
-               mutate(a_cat = case_when(category == "type" ~ "Clinical Definition of sphincter of Oddi dysfunction",
-                                        TRUE ~ "999"))
+oddi_table <- indo_rct_long %>% filter(category == "type") %>% group_by(rx,category,value) %>% count() %>%
+                  group_by(rx,category) %>%
+                  # calculate percentages
+                  mutate(percent =  round((n/sum(n))*100,1),
+                         #total = sum(n),
+                         #n_n = paste0(n,"/",total)
+                         )
+
+oddi_table_any <- indo_rct_long %>% filter(category == "type") %>%
+                  mutate(value = ifelse(value == "0_no SOD","none","Any")) %>% 
+                  group_by(rx,category,value) %>% count() %>%
+                  group_by(rx,category) %>%
+                  # calculate percentages
+                  mutate(percent =  round((n/sum(n))*100,1),
+                         #total = sum(n),
+                         #n_n = paste0(n,"/",total)
+                         ) %>%
+                  filter(value == "Any") %>%
+                  mutate(a_cat = case_when(category == "type" ~ "Clinical Definition of sphincter of Oddi dysfunction",
+                                           TRUE ~ "999"))
+
+oddi_table
 
 ```
 
