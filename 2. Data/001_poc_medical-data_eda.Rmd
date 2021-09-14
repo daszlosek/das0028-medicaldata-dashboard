@@ -136,6 +136,7 @@ table1 <- indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
                   filter(value == "1_yes") %>%
                   # remove uselss variables
                   dplyr::select(-value) %>%
+                  ungroup() %>%
                   # pivot wider by treatment group
                   pivot_wider(., names_from = rx, values_from = n:percent) %>%
                   dplyr::select(category,
@@ -144,18 +145,19 @@ table1 <- indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
                   mutate(a_cat = 
                           case_when(
                             # reverse order at the moment
-                             "train" ~ "Trainee involvement in ECRP",
-                             "prophystent" ~ "Placement of Pancreatic Stent",
-                             "amp" ~ "Ampullectomy",
-                             "bsphinc" ~ "Theraputic Biliary Sphincterotomy",
-                             "acinar" ~ "Pancreatic acinarisation",
+                             category == "train" ~ "Trainee involvement in ECRP",
+                             category == "prophystent" ~ "Placement of Pancreatic Stent",
+                             category == "amp" ~ "Ampullectomy",
+                             category == "bsphinc" ~ "Theraputic Biliary Sphincterotomy",
+                             category == "acinar" ~ "Pancreatic acinarisation",
                              #"" ~ "Therapeutic pancreatic schinterotomt",
-                             "paninj" ~ "Pancreatography - Patients",
+                             category == "paninj" ~ "Pancreatography - Patients",
                              #"" ~ "Pancreatography - Median no. of injections of contrast agent into pancreatic duct",
-                             "precut" ~ "Precut sphincterotomy",
-                             "difcan" ~ "Difficult cannulation (> 8 attempts)",
-                             "recpanc" ~ "History of recurrent pancreatitis",
+                             category == "precut" ~ "Precut sphincterotomy",
+                             category == "difcan" ~ "Difficult cannulation (> 8 attempts)",
+                             category == "recpanc" ~ "History of recurrent pancreatitis",
                              #"" ~ "History of post-ERCP pancreatitis",
+                             TRUE ~ "999"
                              
                              
                              
