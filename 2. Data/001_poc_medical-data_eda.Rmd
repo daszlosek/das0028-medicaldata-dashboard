@@ -101,7 +101,7 @@ head(indo_rct)
 
 # type - Sphincter of Oddi dysfunction type/level - higher numbers are more severe with greater association with PEP
 indo_rct_long <- indo_rct %>% dplyr::select(id, site,rx, age, sod, pep,recpanc,precut,
-                                            difcan,amp,train,prophystent,acinar,paninj,bsphinc) %>%
+                                            difcan,amp,train,prophystent,acinar,paninj,bsphinc,therastent) %>%
                  pivot_longer(cols = -c(id,site,rx,age),
                               names_to = "category", 
                               values_to = "value",
@@ -125,7 +125,7 @@ head(indo_rct_long)
 
 # thisi s the code for creating table 1, make into a nice kable?
 # recreating table 1
-table1 <- indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
+table1_raw <- indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
                   group_by(rx,category) %>%
                   # calculate percentages
                   mutate(percent =  round((n/sum(n))*100,1),
@@ -141,7 +141,10 @@ table1 <- indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
                   pivot_wider(., names_from = rx, values_from = n:percent) %>%
                   dplyr::select(category,
                                 percent_0_placebo ,n_0_placebo,
-                                percent_1_indomethacin,n_1_indomethacin) %>%
+                                percent_1_indomethacin,n_1_indomethacin)
+
+
+table1_categorical <- table1_raw %>%
                   mutate(a_cat = 
                           case_when(
                             # reverse order at the moment
@@ -150,26 +153,39 @@ table1 <- indo_rct_long %>% group_by(rx,category,value) %>% count() %>%
                              category == "amp" ~ "Ampullectomy",
                              category == "bsphinc" ~ "Theraputic Biliary Sphincterotomy",
                              category == "acinar" ~ "Pancreatic acinarisation",
-                             #"" ~ "Therapeutic pancreatic schinterotomt",
+                             category == "therastent" ~ "Therapeutic pancreatic schinterotomt",
                              category == "paninj" ~ "Pancreatography - Patients",
                              #"" ~ "Pancreatography - Median no. of injections of contrast agent into pancreatic duct",
                              category == "precut" ~ "Precut sphincterotomy",
                              category == "difcan" ~ "Difficult cannulation (> 8 attempts)",
                              category == "recpanc" ~ "History of recurrent pancreatitis",
-                             #"" ~ "History of post-ERCP pancreatitis",
-                             TRUE ~ "999"
-                             
-                             
-                             
-                          ))
+                             category == "pep" ~ "History of post-ERCP pancreatitis",
+                             TRUE ~ "999"),
+                         cat_order = factor(category, levels = c("recpanc","difcan",
+                                                                 "precut","paninj",
+                                                                 "therastent","acinar",
+                                                                 "bsphinc","amp",
+                                                                 "prophystent","train")))
 
 
 
-table1
+table1_categorical
 
 #indo_rct_long %>% group_by(value) %>% count()
 
 ```
+
+
+```{r}
+
+# sphincter of oddi table
+
+oddi_table <- table1_raw %>% 
+               mutate(a_cat = case_when(category == "type" ~ "Clinical Definition of sphincter of Oddi dysfunction",
+                                        TRUE ~ "999"))
+
+```
+
 
 
 
