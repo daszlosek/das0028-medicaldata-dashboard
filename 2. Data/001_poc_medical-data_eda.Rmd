@@ -212,12 +212,21 @@ oddi_table
 
 ```{r table 1 kable}
 
+#n (%)
+head(table1_categorical)
+
+table1 <- table1_categorical %>% arrange(cat_order) %>% 
+          mutate(indo = paste0(n_1_indomethacin," (",percent_1_indomethacin,")"),
+                 plcbo = paste0(n_0_placebo," (",percent_0_placebo,")")) %>%
+          dplyr::select(a_cat, indo, plcbo)
+
+head(table1)
 
 knitr::kable(table1,"html", table.attr = "style='width:80%;'",row.names = F,
-      col.names = c("Characteristics","%","n","%","n"),
-      align = c("l",rep("c",4))) %>%
-      kable_styling(full_width = F,bootstrap_options = c("striped", "hover"), font_size = 10) %>%
-      add_header_above(c(" " = 1, "Placebo" = 2, "Indomethacin" = 2))
+      col.names = c("Characteristic","Indomethacin (N = 295)","Placebo (N = 307)"),
+      align = c("l",rep("c",3))) %>%
+      kable_styling(full_width = F,bootstrap_options = c("striped", "hover"), font_size = 10) #%>%
+      #add_header_above(c(" " = 1, "Indomethacin (N = 295)" = 1, "Placebo (N = 307)" = 1))
 
 
 ```
